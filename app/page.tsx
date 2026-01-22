@@ -127,7 +127,7 @@ export default function WeddingTimeline() {
         { time: '8:00 PM', items: [{ type: 'all' as const, text: 'Speeches begin', detail: "Groom's dad • Bride's sister • Best man • Bridesmaid" }] },
         { time: '8:45 PM', items: [{ type: 'couple' as const, text: 'Cake cutting' }] },
         { time: '8:55 PM', items: [{ type: 'all' as const, text: 'Bride & groom speech' }] },
-        { time: '9:05 PM', items: [{ type: 'all' as const, text: 'Yum sing!' }] },
+        { time: '9:05 PM', items: [{ type: 'all' as const, text: 'Yum Seng' }] },
         { time: '9:10 PM', items: [{ type: 'couple' as const, text: 'First dance', highlight: true }] },
         { time: '9:15 PM', items: [{ type: 'couple' as const, text: 'Parent dances' }] },
         { time: '9:20 PM', items: [{ type: 'all' as const, text: 'Dancefloor opens', highlight: true }] },
