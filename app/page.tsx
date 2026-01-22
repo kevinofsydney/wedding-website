@@ -527,16 +527,6 @@ export default function WeddingTimeline() {
           background: 'linear-gradient(90deg, transparent, #c9a87c, transparent)',
           margin: '30px auto'
         }} />
-        <p style={{
-          fontFamily: "'Quicksand', sans-serif",
-          fontSize: '15px',
-          letterSpacing: '3px',
-          color: '#8a847b',
-          fontWeight: '400',
-          marginBottom: '30px'
-        }}>
-          Our Day, Moment by Moment
-        </p>
         <div style={{
           fontFamily: "'Quicksand', sans-serif",
           fontSize: '14px',
@@ -781,11 +771,41 @@ export default function WeddingTimeline() {
           fontSize: '20px',
           color: '#6b665e',
           maxWidth: '400px',
-          margin: '0 auto',
+          margin: '0 auto 30px auto',
           lineHeight: '1.6'
         }}>
           Thank you for being part of our special day
         </p>
+        <div style={{
+          fontFamily: "'Quicksand', sans-serif",
+          fontSize: '13px',
+          color: '#8a847b',
+          marginTop: '30px'
+        }}>
+          For urgent questions only on the day, please contact{' '}
+          <a
+            href="https://wa.me/61XXXXXXXXX"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: '#c9a87c',
+              textDecoration: 'none',
+              fontWeight: '500',
+              borderBottom: '1px solid #c9a87c',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.color = '#a68961';
+              e.currentTarget.style.borderBottomColor = '#a68961';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.color = '#c9a87c';
+              e.currentTarget.style.borderBottomColor = '#c9a87c';
+            }}
+          >
+            XXX at 04 XXX XXX XX
+          </a>
+        </div>
       </footer>
     </div>
   );
