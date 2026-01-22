@@ -188,7 +188,7 @@ export default function WeddingTimeline() {
           { type: 'guests' as const, text: 'Cocktails begin in courtyard' },
           { type: 'couple' as const, text: 'Friend group photos' }
         ]},
-        { time: '', items: [{ type: 'couple' as const, text: 'Photo groups', detail: 'Normanhurst boys • Camberwell girls • Live Nation • Wine Night • Lok extended family • Uni mates • Friends' }] }
+        { time: '', items: [{ type: 'couple' as const, text: 'Photo groups' }] }
       ]
     },
     {
@@ -201,7 +201,7 @@ export default function WeddingTimeline() {
         { time: '7:40 PM', items: [{ type: 'all' as const, text: 'Bride & groom enter', highlight: true }] },
         { time: '7:45 PM', items: [{ type: 'all' as const, text: 'MC welcomes guests' }] },
         { time: '7:50 PM', items: [{ type: 'all' as const, text: 'Entrée canapés served' }] },
-        { time: '8:00 PM', items: [{ type: 'all' as const, text: 'Speeches begin', detail: "Groom's dad • Bride's sister • Best man • Bridesmaid" }] },
+        { time: '8:00 PM', items: [{ type: 'all' as const, text: 'Speeches begin', detail: "Groom's dad • Maid of Honour • Best Man • Bridesmaid" }] },
         { time: '8:45 PM', items: [{ type: 'couple' as const, text: 'Cake cutting' }] },
         { time: '8:55 PM', items: [{ type: 'all' as const, text: 'Bride & groom speech' }] },
         { time: '9:05 PM', items: [{ type: 'all' as const, text: 'Yum Seng' }] },
@@ -642,7 +642,7 @@ export default function WeddingTimeline() {
 
       {/* Timeline */}
       <main style={{
-        maxWidth: '900px',
+        maxWidth: '750px',
         margin: '0 auto',
         padding: '0 20px 100px',
         position: 'relative'
@@ -740,7 +740,7 @@ export default function WeddingTimeline() {
                         }}
                       >
                         <div style={{
-                          fontSize: '17px',
+                          fontSize: '20px',
                           fontWeight: 'highlight' in item && item.highlight ? '500' : '400',
                           marginBottom: 'detail' in item && item.detail ? '6px' : '0',
                           color: 'highlight' in item && item.highlight ? '#3d3a36' : '#4a463f'
