@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 
 export default function WeddingTimeline() {
   const [activeNav, setActiveNav] = useState<string | null>(null);
+  const [showPreCeremony, setShowPreCeremony] = useState(false);
+  const [activeTypes, setActiveTypes] = useState<string[]>(['couple', 'guests', 'all']);
 
   const scrollToSection = (id: string) => {
     setActiveNav(id);
     const element = document.getElementById(id);
     if (element) {
-      const navHeight = 70;
+      const navHeight = 130;
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
         top: elementPosition - navHeight,
@@ -18,10 +20,50 @@ export default function WeddingTimeline() {
     }
   };
 
+  const jumpToCurrentTime = () => {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTime = currentHour * 60 + currentMinute;
+
+    const timeRanges = [
+      { id: 'getting-ready', start: 14 * 60, end: 15 * 60 + 30 },
+      { id: 'pre-ceremony', start: 15 * 60 + 30, end: 17 * 60 },
+      { id: 'ceremony', start: 17 * 60, end: 18 * 60 + 10 },
+      { id: 'cocktails', start: 18 * 60 + 10, end: 19 * 60 + 5 },
+      { id: 'reception', start: 19 * 60 + 5, end: 23 * 60 + 45 }
+    ];
+
+    const currentSection = timeRanges.find(
+      range => currentTime >= range.start && currentTime < range.end
+    );
+
+    if (currentSection) {
+      if (['getting-ready', 'pre-ceremony'].includes(currentSection.id) && !showPreCeremony) {
+        setShowPreCeremony(true);
+        setTimeout(() => scrollToSection(currentSection.id), 100);
+      } else {
+        scrollToSection(currentSection.id);
+      }
+    } else {
+      scrollToSection('ceremony');
+    }
+  };
+
+  const toggleTypeFilter = (type: string) => {
+    if (activeTypes.includes(type)) {
+      if (activeTypes.length > 1) {
+        setActiveTypes(activeTypes.filter(t => t !== type));
+      }
+    } else {
+      setActiveTypes([...activeTypes, type]);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const sections = ['getting-ready', 'pre-ceremony', 'ceremony', 'cocktails', 'reception'];
-      const navHeight = 80;
+      const navHeight = 140;
 
       for (const sectionId of sections) {
         const element = document.getElementById(sectionId);
@@ -236,13 +278,13 @@ export default function WeddingTimeline() {
         }
 
         .nav-spacer {
-          height: 70px;
+          height: 130px;
         }
 
         @media (max-width: 768px) {
           .nav-btn { padding: 8px 12px; font-size: 9px; letter-spacing: 1px; }
           .fixed-nav { padding: 12px 10px; }
-          .nav-spacer { height: 60px; }
+          .nav-spacer { height: 140px; }
         }
       `}</style>
 
@@ -250,21 +292,56 @@ export default function WeddingTimeline() {
       <nav className="fixed-nav">
         <div style={{
           display: 'flex',
-          justifyContent: 'center',
-          gap: '10px',
-          flexWrap: 'wrap',
-          maxWidth: '800px',
+          flexDirection: 'column',
+          gap: '12px',
+          maxWidth: '900px',
           margin: '0 auto'
         }}>
-          {navItems.map((item) => (
+          {/* Action Buttons Row */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '10px',
+            flexWrap: 'wrap'
+          }}>
             <button
-              key={item.id}
-              className={`nav-btn ${activeNav === item.id ? 'active' : ''}`}
-              onClick={() => scrollToSection(item.id)}
+              className="nav-btn"
+              onClick={() => setShowPreCeremony(!showPreCeremony)}
+              style={{
+                background: showPreCeremony ? '#c9a87c' : 'transparent',
+                borderColor: showPreCeremony ? '#c9a87c' : '#d4cdc4',
+                color: showPreCeremony ? '#fff' : '#6b665e'
+              }}
             >
-              {item.label}
+              {showPreCeremony ? 'Hide' : 'Show'} Bridal Party Schedule
             </button>
-          ))}
+            <button
+              className="nav-btn"
+              onClick={jumpToCurrentTime}
+            >
+              ⏱ Jump to Now
+            </button>
+          </div>
+
+          {/* Section Navigation */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '10px',
+            flexWrap: 'wrap'
+          }}>
+            {navItems
+              .filter(item => showPreCeremony || !['getting-ready', 'pre-ceremony'].includes(item.id))
+              .map((item) => (
+                <button
+                  key={item.id}
+                  className={`nav-btn ${activeNav === item.id ? 'active' : ''}`}
+                  onClick={() => scrollToSection(item.id)}
+                >
+                  {item.label}
+                </button>
+              ))}
+          </div>
         </div>
       </nav>
 
@@ -322,7 +399,7 @@ export default function WeddingTimeline() {
         </p>
       </header>
 
-      {/* Legend */}
+      {/* Legend - Clickable Filters */}
       <div style={{
         display: 'flex',
         justifyContent: 'center',
@@ -333,18 +410,54 @@ export default function WeddingTimeline() {
         fontSize: '12px',
         letterSpacing: '1px'
       }}>
-        {Object.entries(typeStyles).map(([key, style]) => (
-          <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div style={{
-              width: '24px',
-              height: '24px',
-              background: style.bg,
-              border: `1px solid ${style.border}`,
-              borderRadius: '4px'
-            }} />
-            <span style={{ color: '#6b665e' }}>{style.label}</span>
-          </div>
-        ))}
+        {Object.entries(typeStyles).map(([key, style]) => {
+          const isActive = activeTypes.includes(key);
+          return (
+            <button
+              key={key}
+              onClick={() => toggleTypeFilter(key)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px 12px',
+                borderRadius: '20px',
+                transition: 'all 0.3s ease',
+                opacity: isActive ? 1 : 0.4,
+                transform: isActive ? 'scale(1)' : 'scale(0.95)'
+              }}
+            >
+              <div style={{
+                width: '24px',
+                height: '24px',
+                background: style.bg,
+                border: `2px solid ${style.border}`,
+                borderRadius: '4px',
+                transition: 'all 0.3s ease'
+              }} />
+              <span style={{
+                color: '#6b665e',
+                fontWeight: isActive ? '500' : '400'
+              }}>
+                {style.label}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+      <div style={{
+        textAlign: 'center',
+        fontSize: '11px',
+        fontFamily: "'Quicksand', sans-serif",
+        color: '#8a847b',
+        marginTop: '-35px',
+        marginBottom: '35px',
+        letterSpacing: '1px'
+      }}>
+        Click to filter events by group
       </div>
 
       {/* Timeline */}
@@ -354,16 +467,26 @@ export default function WeddingTimeline() {
         padding: '0 20px 100px',
         position: 'relative'
       }}>
-        {sections.map((section, sectionIdx) => (
-          <section
-            key={section.id}
-            id={section.id}
-            className="timeline-section"
-            style={{
-              marginBottom: '70px',
-              animationDelay: `${sectionIdx * 0.15}s`
-            }}
-          >
+        {sections
+          .filter(section => showPreCeremony || !['getting-ready', 'pre-ceremony'].includes(section.id))
+          .map((section, sectionIdx) => {
+            const filteredEvents = section.events.map(event => ({
+              ...event,
+              items: event.items.filter(item => activeTypes.includes(item.type))
+            })).filter(event => event.items.length > 0);
+
+            if (filteredEvents.length === 0) return null;
+
+            return (
+              <section
+                key={section.id}
+                id={section.id}
+                className="timeline-section"
+                style={{
+                  marginBottom: '70px',
+                  animationDelay: `${sectionIdx * 0.15}s`
+                }}
+              >
             {/* Section Header */}
             <div style={{
               textAlign: 'center',
@@ -397,7 +520,7 @@ export default function WeddingTimeline() {
 
             {/* Events */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {section.events.map((event, eventIdx) => (
+              {filteredEvents.map((event, eventIdx) => (
                 <div key={eventIdx} style={{
                   display: 'flex',
                   alignItems: 'flex-start',
@@ -462,7 +585,8 @@ export default function WeddingTimeline() {
               ))}
             </div>
           </section>
-        ))}
+            );
+          })}
       </main>
 
       {/* Footer */}
