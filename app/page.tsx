@@ -282,6 +282,26 @@ export default function WeddingTimeline() {
           transform: scale(0.98);
         }
 
+        .hero-image {
+          width: 100%;
+          height: 300px;
+          background-size: cover;
+          background-position: center;
+          position: relative;
+        }
+
+        @media (max-width: 768px) {
+          .hero-image {
+            height: 250px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-image {
+            height: 200px;
+          }
+        }
+
         .timeline-section {
           opacity: 0;
           transform: translateY(30px);
@@ -446,20 +466,42 @@ export default function WeddingTimeline() {
       {/* Header */}
       <header style={{
         textAlign: 'center',
-        padding: '60px 20px 40px',
+        padding: '0',
         position: 'relative'
       }}>
-        <div style={{
-          fontSize: '14px',
-          fontFamily: "'Quicksand', sans-serif",
-          letterSpacing: '4px',
-          textTransform: 'uppercase',
-          color: '#8a847b',
-          marginBottom: '20px',
-          fontWeight: '300'
-        }}>
-          The Wedding of
+        {/* Hero Image */}
+        <div
+          className="hero-image"
+          style={{
+            backgroundImage: 'url(/hero-image.jpeg)',
+            marginBottom: '40px'
+          }}
+        >
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '100px',
+            background: 'linear-gradient(to top, #faf9f7, transparent)'
+          }} />
         </div>
+
+        <div style={{
+          padding: '0 20px 40px',
+          marginTop: '-40px'
+        }}>
+          <div style={{
+            fontSize: '14px',
+            fontFamily: "'Quicksand', sans-serif",
+            letterSpacing: '4px',
+            textTransform: 'uppercase',
+            color: '#8a847b',
+            marginBottom: '20px',
+            fontWeight: '300'
+          }}>
+            The Wedding of
+          </div>
         <h1 style={{
           fontSize: 'clamp(48px, 10vw, 72px)',
           fontWeight: '300',
@@ -542,6 +584,7 @@ export default function WeddingTimeline() {
           >
             📍 View on Google Maps
           </a>
+        </div>
         </div>
       </header>
 
