@@ -6,6 +6,30 @@ export default function WeddingTimeline() {
   const [activeNav, setActiveNav] = useState<string | null>(null);
   const [showPreCeremony, setShowPreCeremony] = useState(false);
   const [activeTypes, setActiveTypes] = useState<string[]>(['couple', 'guests', 'all']);
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Load filter preferences from localStorage on mount
+  useEffect(() => {
+    const savedFilters = localStorage.getItem('weddingFilters');
+    if (savedFilters) {
+      try {
+        const { activeTypes: saved, showPreCeremony: savedPre } = JSON.parse(savedFilters);
+        if (saved && Array.isArray(saved) && saved.length > 0) {
+          setActiveTypes(saved);
+        }
+        if (typeof savedPre === 'boolean') {
+          setShowPreCeremony(savedPre);
+        }
+      } catch (e) {
+        // Ignore parse errors
+      }
+    }
+  }, []);
+
+  // Save filter preferences to localStorage when they change
+  useEffect(() => {
+    localStorage.setItem('weddingFilters', JSON.stringify({ activeTypes, showPreCeremony }));
+  }, [activeTypes, showPreCeremony]);
 
   const scrollToSection = (id: string) => {
     setActiveNav(id);
@@ -21,6 +45,7 @@ export default function WeddingTimeline() {
   };
 
   const jumpToCurrentTime = () => {
+    setIsScrolling(true);
     const now = new Date();
     const currentHour = now.getHours();
     const currentMinute = now.getMinutes();
@@ -41,13 +66,23 @@ export default function WeddingTimeline() {
     if (currentSection) {
       if (['getting-ready', 'pre-ceremony'].includes(currentSection.id) && !showPreCeremony) {
         setShowPreCeremony(true);
-        setTimeout(() => scrollToSection(currentSection.id), 100);
+        setTimeout(() => {
+          scrollToSection(currentSection.id);
+          setTimeout(() => setIsScrolling(false), 500);
+        }, 100);
       } else {
         scrollToSection(currentSection.id);
+        setTimeout(() => setIsScrolling(false), 500);
       }
     } else {
       scrollToSection('ceremony');
+      setTimeout(() => setIsScrolling(false), 500);
     }
+  };
+
+  const resetFilters = () => {
+    setActiveTypes(['couple', 'guests', 'all']);
+    setShowPreCeremony(false);
   };
 
   const toggleTypeFilter = (type: string) => {
@@ -220,6 +255,33 @@ export default function WeddingTimeline() {
           color: #fff;
         }
 
+        .legend-filter {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          padding: 8px 12px;
+          border-radius: 20px;
+          transition: all 0.3s ease;
+        }
+
+        .legend-filter:hover {
+          background: rgba(201, 168, 124, 0.1);
+          transform: translateY(-2px);
+        }
+
+        .legend-filter.inactive {
+          opacity: 0.4;
+          transform: scale(0.95);
+        }
+
+        .legend-filter.inactive:hover {
+          opacity: 0.7;
+          transform: scale(0.98);
+        }
+
         .timeline-section {
           opacity: 0;
           transform: translateY(30px);
@@ -282,9 +344,30 @@ export default function WeddingTimeline() {
         }
 
         @media (max-width: 768px) {
-          .nav-btn { padding: 8px 12px; font-size: 9px; letter-spacing: 1px; }
-          .fixed-nav { padding: 12px 10px; }
-          .nav-spacer { height: 140px; }
+          .nav-btn {
+            padding: 7px 10px;
+            font-size: 9px;
+            letter-spacing: 0.8px;
+            white-space: nowrap;
+          }
+          .fixed-nav { padding: 10px 8px; }
+          .nav-spacer { height: 165px; }
+          .legend-filter {
+            padding: 6px 8px;
+            gap: 6px;
+          }
+          .legend-filter span {
+            font-size: 11px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .nav-btn {
+            padding: 6px 8px;
+            font-size: 8px;
+            letter-spacing: 0.5px;
+          }
+          .nav-spacer { height: 185px; }
         }
       `}</style>
 
@@ -301,7 +384,7 @@ export default function WeddingTimeline() {
           <div style={{
             display: 'flex',
             justifyContent: 'center',
-            gap: '10px',
+            gap: '8px',
             flexWrap: 'wrap'
           }}>
             <button
@@ -313,13 +396,25 @@ export default function WeddingTimeline() {
                 color: showPreCeremony ? '#fff' : '#6b665e'
               }}
             >
-              {showPreCeremony ? 'Hide' : 'Show'} Bridal Party Schedule
+              {showPreCeremony ? 'Hide' : 'Show'} Bridal Party
             </button>
             <button
               className="nav-btn"
               onClick={jumpToCurrentTime}
+              style={{
+                background: isScrolling ? '#c9a87c' : 'transparent',
+                borderColor: isScrolling ? '#c9a87c' : '#d4cdc4',
+                color: isScrolling ? '#fff' : '#6b665e'
+              }}
             >
               ⏱ Jump to Now
+            </button>
+            <button
+              className="nav-btn"
+              onClick={resetFilters}
+              title="Reset all filters to default"
+            >
+              ↺ Reset Filters
             </button>
           </div>
 
@@ -393,10 +488,61 @@ export default function WeddingTimeline() {
           fontSize: '15px',
           letterSpacing: '3px',
           color: '#8a847b',
-          fontWeight: '400'
+          fontWeight: '400',
+          marginBottom: '30px'
         }}>
           Our Day, Moment by Moment
         </p>
+        <div style={{
+          fontFamily: "'Quicksand', sans-serif",
+          fontSize: '14px',
+          color: '#6b665e',
+          lineHeight: '1.8',
+          marginTop: '20px'
+        }}>
+          <div style={{
+            fontSize: '12px',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            color: '#c9a87c',
+            marginBottom: '10px',
+            fontWeight: '500'
+          }}>
+            Venue
+          </div>
+          <div style={{ fontWeight: '500', fontSize: '16px' }}>The Commons Collective</div>
+          <div style={{ fontSize: '13px', color: '#8a847b', marginTop: '5px' }}>17 Moubray St, Melbourne VIC 3004</div>
+          <a
+            href="https://maps.app.goo.gl/f5NEcSg9awAdt1jh8"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              marginTop: '12px',
+              padding: '8px 20px',
+              background: 'transparent',
+              border: '1px solid #c9a87c',
+              borderRadius: '25px',
+              color: '#c9a87c',
+              textDecoration: 'none',
+              fontSize: '12px',
+              letterSpacing: '1.5px',
+              textTransform: 'uppercase',
+              transition: 'all 0.3s ease',
+              fontWeight: '500'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = '#c9a87c';
+              e.currentTarget.style.color = '#fff';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#c9a87c';
+            }}
+          >
+            📍 View on Google Maps
+          </a>
+        </div>
       </header>
 
       {/* Legend - Clickable Filters */}
@@ -416,19 +562,8 @@ export default function WeddingTimeline() {
             <button
               key={key}
               onClick={() => toggleTypeFilter(key)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px 12px',
-                borderRadius: '20px',
-                transition: 'all 0.3s ease',
-                opacity: isActive ? 1 : 0.4,
-                transform: isActive ? 'scale(1)' : 'scale(0.95)'
-              }}
+              className={`legend-filter ${!isActive ? 'inactive' : ''}`}
+              title={`Click to ${isActive ? 'hide' : 'show'} ${style.label} events`}
             >
               <div style={{
                 width: '24px',
