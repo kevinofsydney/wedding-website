@@ -284,21 +284,24 @@ export default function WeddingTimeline() {
 
         .hero-image {
           width: 100%;
-          height: 300px;
+          height: 400px;
           background-size: cover;
           background-position: center;
           position: relative;
+          margin-top: 130px !important;
         }
 
         @media (max-width: 768px) {
           .hero-image {
-            height: 250px;
+            height: 350px;
+            margin-top: 165px !important;
           }
         }
 
         @media (max-width: 480px) {
           .hero-image {
-            height: 200px;
+            height: 300px;
+            margin-top: 185px !important;
           }
         }
 
@@ -460,20 +463,19 @@ export default function WeddingTimeline() {
         </div>
       </nav>
 
-      {/* Spacer for fixed nav */}
-      <div className="nav-spacer" />
-
       {/* Header */}
       <header style={{
         textAlign: 'center',
         padding: '0',
-        position: 'relative'
+        position: 'relative',
+        marginTop: '0'
       }}>
-        {/* Hero Image */}
+        {/* Hero Image - starts right below fixed nav */}
         <div
           className="hero-image"
           style={{
             backgroundImage: 'url(/hero-image.jpeg)',
+            marginTop: '0',
             marginBottom: '40px'
           }}
         >
