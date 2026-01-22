@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function WeddingTimeline() {
   const [activeNav, setActiveNav] = useState<string | null>(null);
@@ -439,6 +440,16 @@ export default function WeddingTimeline() {
             >
               ↺ Reset Filters
             </button>
+            <Link
+              href="/video"
+              className="nav-btn"
+              style={{
+                textDecoration: 'none',
+                display: 'inline-block',
+              }}
+            >
+              📹 Watch Video
+            </Link>
           </div>
 
           {/* Section Navigation */}
