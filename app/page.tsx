@@ -189,7 +189,7 @@ export default function WeddingTimeline() {
           { type: 'guests' as const, text: 'Guests enter Chapel courtyard', detail: 'Canapes and limoncello cocktails served' },
           { type: 'couple' as const, text: 'Photos with guests' }
         ]},
-        { time: '6:10 PM', items: [{ type: 'couple' as const, text: 'Friend group photos', detail: 'Normanhurst boys \u2022 Camberwell girls \u2022 Live Nation \u2022 AOMI \u2022 Inner Circle/Grand Planners \u2022 Wine Night \u2022 Lok extended family \u2022 Gluttons \u2022 Andria \u2022 Ferg \u2022 Russell \u2022 Eleanor \u2022 Sarah and Ben' }] }
+        { time: '6:10 PM', items: [{ type: 'couple' as const, text: 'Friend group photos' }] }
       ]
     },
     {
