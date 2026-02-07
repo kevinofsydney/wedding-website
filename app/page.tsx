@@ -54,10 +54,10 @@ export default function WeddingTimeline() {
 
     const timeRanges = [
       { id: 'getting-ready', start: 14 * 60, end: 15 * 60 + 30 },
-      { id: 'pre-ceremony', start: 15 * 60 + 30, end: 17 * 60 },
-      { id: 'ceremony', start: 17 * 60, end: 18 * 60 + 10 },
-      { id: 'cocktails', start: 18 * 60 + 10, end: 19 * 60 + 5 },
-      { id: 'reception', start: 19 * 60 + 5, end: 23 * 60 + 45 }
+      { id: 'pre-ceremony', start: 15 * 60 + 30, end: 16 * 60 + 50 },
+      { id: 'ceremony', start: 16 * 60 + 50, end: 18 * 60 + 5 },
+      { id: 'cocktails', start: 18 * 60 + 5, end: 18 * 60 + 50 },
+      { id: 'reception', start: 18 * 60 + 50, end: 23 * 60 + 45 }
     ];
 
     const currentSection = timeRanges.find(
@@ -161,11 +161,11 @@ export default function WeddingTimeline() {
       time: '5:00 PM',
       icon: '❧',
       events: [
-        { time: '5:00 PM', items: [{ type: 'guests' as const, text: 'Guests arrive' }] },
+        { time: '4:50 PM', items: [{ type: 'guests' as const, text: 'Guests arrive for ceremony', detail: 'If you arrive early, head to the Beer Garden for a beverage before walking to the Chapel' }] },
         { time: '5:15 PM', items: [{ type: 'all' as const, text: 'Ceremony begins', highlight: true }] },
         { time: '', items: [
           { type: 'couple' as const, text: 'Groom walks down aisle with both parents' },
-          { type: 'couple' as const, text: 'Flower girls walk down aisle' },
+          { type: 'couple' as const, text: 'Two flower girls walk down aisle' },
           { type: 'couple' as const, text: 'Maid of honor walks down aisle with the dogs' }
         ]},
         { time: '', items: [
@@ -182,36 +182,47 @@ export default function WeddingTimeline() {
     {
       id: 'cocktails',
       title: 'Cocktails & Photos',
-      time: '6:10 PM',
+      time: '6:05 PM',
       icon: '◇',
       events: [
-        { time: '6:10 PM', items: [
-          { type: 'guests' as const, text: 'Cocktails begin in courtyard' },
-          { type: 'couple' as const, text: 'Friend group photos' }
+        { time: '6:05 PM', items: [
+          { type: 'guests' as const, text: 'Guests enter Chapel courtyard', detail: 'Canapes and limoncello cocktails served' },
+          { type: 'couple' as const, text: 'Photos with guests' }
         ]},
-        { time: '', items: [{ type: 'couple' as const, text: 'Photo groups' }] }
+        { time: '6:10 PM', items: [{ type: 'couple' as const, text: 'Friend group photos', detail: 'Normanhurst boys \u2022 Camberwell girls \u2022 Live Nation \u2022 AOMI \u2022 Inner Circle/Grand Planners \u2022 Wine Night \u2022 Lok extended family \u2022 Gluttons \u2022 Andria \u2022 Ferg \u2022 Russell \u2022 Eleanor \u2022 Sarah and Ben' }] }
       ]
     },
     {
       id: 'reception',
       title: 'The Reception',
-      time: '7:05 PM',
+      time: '6:50 PM',
       icon: '✧',
       events: [
-        { time: '7:05 PM', items: [{ type: 'guests' as const, text: 'Guests enter reception' }] },
-        { time: '7:40 PM', items: [{ type: 'all' as const, text: 'Bride & groom enter', highlight: true }] },
-        { time: '7:45 PM', items: [{ type: 'all' as const, text: 'MC welcomes guests' }] },
-        { time: '7:50 PM', items: [{ type: 'all' as const, text: 'Entrée canapés served' }] },
-        { time: '8:00 PM', items: [{ type: 'all' as const, text: 'Speeches begin', detail: "Groom's dad • Maid of Honour • Best Man • Bridesmaid" }] },
-        { time: '8:45 PM', items: [{ type: 'couple' as const, text: 'Cake cutting' }] },
-        { time: '8:55 PM', items: [{ type: 'all' as const, text: 'Bride & groom speech' }] },
-        { time: '9:05 PM', items: [{ type: 'all' as const, text: 'Yum Seng' }] },
-        { time: '9:10 PM', items: [{ type: 'couple' as const, text: 'First dance', highlight: true }] },
-        { time: '9:15 PM', items: [{ type: 'couple' as const, text: 'Parent dances' }] },
-        { time: '9:20 PM', items: [{ type: 'all' as const, text: 'Dancefloor opens', highlight: true }] },
-        { time: '10:15 PM', items: [{ type: 'all' as const, text: 'Supper served' }] },
-        { time: '11:35 PM', items: [{ type: 'all' as const, text: 'Last dance' }] },
-        { time: '11:45 PM', items: [{ type: 'guests' as const, text: 'Farewell' }] }
+        { time: '6:50 PM', items: [{ type: 'guests' as const, text: 'Guests enter reception' }] },
+        { time: '7:00 PM', items: [
+          { type: 'all' as const, text: 'Bride & groom enter', highlight: true },
+          { type: 'all' as const, text: 'MC welcomes guests' },
+          { type: 'all' as const, text: 'Canapes served' }
+        ]},
+        { time: '7:50 PM', items: [{ type: 'all' as const, text: "Speech: Groom's dad" }] },
+        { time: '8:00 PM', items: [{ type: 'all' as const, text: 'Mains served' }] },
+        { time: '8:05 PM', items: [{ type: 'all' as const, text: 'Speech: Maid of Honour' }] },
+        { time: '8:20 PM', items: [{ type: 'all' as const, text: 'Speech: Best Man & Bridesmaid' }] },
+        { time: '9:00 PM', items: [{ type: 'couple' as const, text: 'Cake cutting' }] },
+        { time: '9:10 PM', items: [
+          { type: 'couple' as const, text: 'First dance', highlight: true },
+          { type: 'couple' as const, text: 'Parent dances' }
+        ]},
+        { time: '9:15 PM', items: [
+          { type: 'all' as const, text: 'Bride & groom speech' },
+          { type: 'all' as const, text: 'Yum Seng' }
+        ]},
+        { time: '9:20 PM', items: [
+          { type: 'all' as const, text: 'Dancefloor opens', highlight: true },
+          { type: 'all' as const, text: 'Dessert table served' }
+        ]},
+        { time: '10:15 PM', items: [{ type: 'all' as const, text: 'Supper served', detail: 'Cheeseburger and fries' }] },
+        { time: '11:45 PM', items: [{ type: 'all' as const, text: 'Last song' }] }
       ]
     }
   ];
