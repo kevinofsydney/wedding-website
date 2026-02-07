@@ -448,7 +448,17 @@ export default function WeddingTimeline() {
                 display: 'inline-block',
               }}
             >
-              📹 Watch Video
+              📹 Kevin&apos;s Video
+            </Link>
+            <Link
+              href="/video/pat"
+              className="nav-btn"
+              style={{
+                textDecoration: 'none',
+                display: 'inline-block',
+              }}
+            >
+              📹 Pat&apos;s Video
             </Link>
           </div>
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-export default function VideoPage() {
+export default function PatVideoPage() {
   return (
     <div style={{
       minHeight: '100vh',
@@ -47,7 +47,7 @@ export default function VideoPage() {
             textTransform: 'uppercase',
             margin: '0',
           }}>
-            Kevin&apos;s Video
+            Pat&apos;s Video
           </p>
         </div>
 
@@ -65,8 +65,8 @@ export default function VideoPage() {
           <iframe
             width="100%"
             height="100%"
-            src="https://www.youtube.com/embed/uSA5FHLOCqQ"
-            title="Kevin & Wenona Wedding Video"
+            src="https://www.youtube.com/embed/lK2ZEZsRm-U"
+            title="Pat's Wedding Video"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             style={{
